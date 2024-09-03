@@ -28,8 +28,5 @@ finnhub_client = finnhub.Client(api_key="your_api_key_here")
 us_symbols = finnhub_client.stock_symbols('US')
 
 # Download historical data
-df = yf.download("^SPX", start="2023-01-01")
-
-# Calculate relative strength
-# (Implement the functions from the script)
+df = yf.download("^SPX", start="2003-01-01")
 ```
