@@ -33,13 +33,29 @@ us_sector_indicies = df_arcx[df_arcx["symbol"].isin(us_sectors)]
 df_sectors = pd.DataFrame(us_sector_indicies)
 df_sectors.to_csv('us_sectors.csv', index=False)
 
-# NASDAQ TICKERS
-nasdaq_symbols = finnhub_client.stock_symbols('US', "XNAS")
-df_tickers = pd.DataFrame(nasdaq_symbols)
-df_tickers.to_csv('tickers.csv', index=False)
+nasdaq_100_symbols = pd.read_excel("nasdaq_100_stocks.xlsx")
+df_nasdaq_100 = pd.DataFrame(nasdaq_100_symbols)
 
-tickers = pd.read_csv('tickers.csv')['symbol'].tolist()
-sectors = pd.read_csv("us_sectors.csv")
+# NASDAQ SECTOR MAPPING (GSIC to SPDR)
+gics_to_spdr = {
+    'Consumer Cyclical': 'XLC', 
+    'Consumer Staples': 'XLP',  
+    'Energy': 'XLE',  
+    'Financials': 'XLF',  
+    'Healthcare': 'XLV',  
+    'Industrials': 'XLI',  
+    'Technology': 'XLK',  
+    'Utilities': 'XLU',  
+    'Real Estate': 'XLRE',  
+    'Communication Services': 'XLC',
+    'Materials': 'XLB'  }
+
+# CLEANING NASDAQ DATA
+df_nasdaq_100["Sector"] = df_nasdaq_100["Sector"].map(gics_to_spdr)
+df_nasdaq_100_cleaned = df_nasdaq_100.dropna(subset=['Sector'])
+df_nasdaq_100_cleaned.to_csv("nasdaq100.csv")
+nasdaq_tickers = pd.read_csv("nasdaq100.csv")
+
 
 
 def calculate_relative_strength(stock_prices, benchmark_prices, window=50):
