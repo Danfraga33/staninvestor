@@ -10,7 +10,7 @@ from datetime import datetime
 from sector import gics_to_spdr
 from indicators import calculate_relative_strength, thirty_week_MA
 from flask import Flask,jsonify
-from flask_cors import CORS
+from flask_cors import CORS 
 
 finnhub_client = finnhub.Client(api_key="co44i4hr01qqksebmuggco44i4hr01qqksebmuh0")
 pd.set_option('display.max_rows', None)
@@ -54,7 +54,6 @@ df_nasdaq_100_cleaned = df_nasdaq_100.dropna(subset=['Sector'])
 df_nasdaq_100_cleaned.to_csv("nasdaq100.csv")
 nasdaq_tickers = pd.read_csv("nasdaq100.csv")
     
-#  Comment out as it runs and slows down each code run. 
 # for ticker in nasdaq_tickers["Ticker"]:
 #    try:
 #       data = yf.download(ticker, "2015-01-01", interval="5d")
